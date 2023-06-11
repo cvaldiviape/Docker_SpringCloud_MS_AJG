@@ -5,10 +5,14 @@ import com.yaksha.users.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/users")
@@ -28,12 +32,24 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody UserEntity user) {
+    public ResponseEntity<?> create(@Valid @RequestBody UserEntity user, BindingResult result) {
+        if (result.hasErrors()) {
+            return showError(result);
+        }
+        if(this.userService.findByEmail(user.getEmail()).isPresent()){
+            return ResponseEntity.badRequest().body(Collections.singletonMap("mensaje", "Ya existe el correo " + user.getEmail()));
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.create(user));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody UserEntity user, @PathVariable Long id) throws Exception {
+    public ResponseEntity<?> update(@Valid @RequestBody UserEntity user, BindingResult result, @PathVariable Long id) throws Exception {
+        if (result.hasErrors()) {
+            return showError(result);
+        }
+        if(this.userService.findByEmail(user.getEmail()).isPresent()){
+            return ResponseEntity.badRequest().body(Collections.singletonMap("mensaje", "Ya existe el correo " + user.getEmail()));
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.update(user, id));
     }
 
@@ -41,5 +57,13 @@ public class UserController {
     public ResponseEntity<?> delete(@PathVariable Long id) throws Exception {
         this.userService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    private ResponseEntity<Map<String, String>> showError(BindingResult result) {
+        Map<String, String> errores = new HashMap<>();
+        result.getFieldErrors().forEach(err -> {
+            errores.put(err.getField(), "El campo " + err.getField() + " " + err.getDefaultMessage());
+        });
+        return ResponseEntity.badRequest().body(errores);
     }
 }

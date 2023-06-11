@@ -12,5 +12,6 @@ public interface UserService {
     UserEntity create(UserEntity user);
     UserEntity update(UserEntity user, Long id) throws Exception;
     void deleteById(Long id) throws Exception;
+    Optional<UserEntity> findByEmail(String email);
 
 }
