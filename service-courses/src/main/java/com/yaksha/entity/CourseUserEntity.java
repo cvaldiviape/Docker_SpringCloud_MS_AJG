@@ -2,7 +2,6 @@ package com.yaksha.entity;
 
 import lombok.*;
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 
 @Builder
 @Getter
@@ -15,9 +14,8 @@ public class CourseUserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "course_id")
-    private Long courseId;
-    @NotEmpty
+    @Column(name = "id")
+    private Long id;
     @Column(name = "user_id", unique = true)
     private Long userId;
 

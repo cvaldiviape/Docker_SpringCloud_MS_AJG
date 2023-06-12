@@ -59,6 +59,11 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/findAllByListIds")
+    public ResponseEntity<?> findAllByListIds(@RequestParam List<Long> listIds){
+        return ResponseEntity.ok(this.userService.findAllByListIds(listIds));
+    }
+
     private ResponseEntity<Map<String, String>> showError(BindingResult result) {
         Map<String, String> errores = new HashMap<>();
         result.getFieldErrors().forEach(err -> {

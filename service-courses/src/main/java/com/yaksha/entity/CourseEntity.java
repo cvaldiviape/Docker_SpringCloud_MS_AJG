@@ -25,7 +25,7 @@ public class CourseEntity {
     @JoinColumn(name = "course_id")
     private List<CourseUserEntity> courseUserList = new ArrayList<>();
     @Transient
-    private List<UserDto> users;
+    private List<UserDto> users = new ArrayList<>();
 
     public void addCourseUser(CourseUserEntity courseUser) {
         courseUserList.add(courseUser);

@@ -13,5 +13,6 @@ public interface UserService {
     UserEntity update(UserEntity user, Long id) throws Exception;
     void deleteById(Long id) throws Exception;
     Optional<UserEntity> findByEmail(String email);
+    List<UserEntity> findAllByListIds(Iterable<Long> listIds);
 
 }

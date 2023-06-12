@@ -1,5 +1,6 @@
 package com.yaksha.users.service;
 
+import com.yaksha.users.client.CourseFeignClient;
 import com.yaksha.users.entity.UserEntity;
 import com.yaksha.users.mapper.UserMapper;
 import com.yaksha.users.repository.UserRepository;
@@ -16,6 +17,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CourseFeignClient courseFeignClient;
 
     @Override
     @Transactional(readOnly = true)
@@ -47,11 +50,18 @@ public class UserServiceImpl implements UserService {
     public void deleteById(Long id) throws Exception {
         UserEntity userDelete = this.userRepository.findById(id).orElseThrow(() -> new Exception("Usuario no existe"));
         this.userRepository.deleteById(userDelete.getId());
+        this.courseFeignClient.deleteCourseUserById(id);
     }
 
     @Override
     public Optional<UserEntity> findByEmail(String email) {
         return this.userRepository.findByEmail(email);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserEntity> findAllByListIds(Iterable<Long> listIds) {
+        return (List<UserEntity>) this.userRepository.findAllById(listIds);
     }
 
 }
