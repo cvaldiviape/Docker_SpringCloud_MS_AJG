@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name="service-users", url="service-users:8001/api/users")  // es buena practica que el hostname "service-users" se llame igual al mi servicio "service-users"
+@FeignClient(name="service-users", url="${saksa.service.users.url}/api/users")  // es buena practica que el hostname "service-users" se llame igual al mi servicio "service-users"
 public interface UserFeignClient {
 
     @GetMapping("/{id}")
