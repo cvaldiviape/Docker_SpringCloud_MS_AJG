@@ -1,0 +1,62 @@
+version: "3.9"
+services:
+  db-mysql:
+    container_name: db-mysql
+    image: mysql:8
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      MYSQL_DATABASE: db_docker_users
+    volumes:
+      - data-mysql:/var/lib/mysql
+    restart: always
+    networks:
+      - bloodyroar
+  db-postgres:
+    container_name: db-postgres
+    image: postgres:15
+    ports:
+      - "5532:5432"
+    environment:
+      POSTGRES_PASSWORD: saksa
+      POSTGRES_DB: db_docker_courses
+    volumes:
+      - data-postgres:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - bloodyroar
+
+  service-users:
+    container_name: service-users
+    image: img-service-users:v1
+    ports:
+      - "8001:8001"
+    env_file: ../service-users/.env
+    networks:
+      - bloodyroar
+    depends_on:
+      - db-mysql
+    restart: always
+
+  service-courses:
+    container_name: service-courses
+    image: img-service-courses:v1
+    ports:
+      - "8002:8002"
+    env_file:
+      - ../service-courses/.env
+    networks:
+      - bloodyroar
+    depends_on:
+      - db-postgres
+      - service-users
+    restart: always
+volumes:
+  data-mysql:
+    name: data-mysql
+  data-postgres:
+    name: data-postgres
+
+networks:
+  bloodyroar:
