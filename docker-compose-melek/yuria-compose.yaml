@@ -29,10 +29,11 @@ services:
 
   service-users:
     container_name: service-users
-    build:
-      context: ../service-users
-      dockerfile: Dockerfile
-    image: img-service-users:v1
+    image: cvaldiviape/mek-service-users:latest
+    # build:
+    #   context: ../service-users
+    #   dockerfile: Dockerfile
+    # image: img-service-users:v1
     ports:
       - "8001:8001"
     env_file: ../service-users/.env
@@ -44,10 +45,11 @@ services:
 
   service-courses:
     container_name: service-courses
-    build:
-      context: ../service-courses
-      dockerfile: Dockerfile
-    image: img-service-courses:v1
+    image: cvaldiviape/mek-service-courses:latest
+    # build:
+    #   context: ../service-courses
+    #   dockerfile: Dockerfile
+    # image: img-service-courses:v1
     ports:
       - "8002:8002"
     env_file:
