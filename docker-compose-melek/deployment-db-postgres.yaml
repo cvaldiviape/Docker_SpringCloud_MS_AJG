@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      melek: db-postgres
+  template:
+    metadata:
+      labels: 
+        melek: db-postgres
+    spec:
+      containers:
+      - image: postgres:15
+        name: db-postgres
+        ports:
+        - containerPort: 5432
+        env:
+          - name: POSTGRES_PASSWORD
+            value: "saksa"
+          - name: POSTGRES_DB
+            value: "db_docker_courses"

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-mysql
+  template:
+    metadata:
+      labels:
+        app: db-mysql
+    spec:
+      containers:
+      - image: mysql:8
+        name: db-mysql
+        ports:
+        - containerPort: 3306
+        env:
+          - name: MYSQL_ALLOW_EMPTY_PASSWORD
+            value: "yes"
+          - name: MYSQL_DATABASE
+            value: "db_docker_users"

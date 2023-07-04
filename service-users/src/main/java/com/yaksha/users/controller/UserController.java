@@ -3,6 +3,8 @@ package com.yaksha.users.controller;
 import com.yaksha.users.entity.UserEntity;
 import com.yaksha.users.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -20,6 +22,13 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private ApplicationContext context;
+
+    @GetMapping("/crash")
+    public void crash(){
+        ((ConfigurableApplicationContext)context).close(); // simulando un quiebre de la aplicacion, es decir, simulado que se caiga mi servicio.
+    }
 
     @GetMapping
     public List<UserEntity> findAll() {
