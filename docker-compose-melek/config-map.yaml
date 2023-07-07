@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: service-users-xd
+data:
+  port: "8001"
+  db_host: "db-mysql:3306"
+  db_database: "db_docker_users"
+  db_username: "root"
+  db_password: ""
+  service_courses_url: "service-courses:8002"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: service-courses-xd
+data:
+  port: "8002"
+  db_host: "db-postgres:5432"
+  db_database: "db_docker_courses"
+  db_username: "postgres"
+  db_password: "saksa"
+  service_users_url: "service-users:8001"

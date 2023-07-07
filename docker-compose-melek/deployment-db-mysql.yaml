@@ -21,7 +21,10 @@ spec:
           - name: MYSQL_ALLOW_EMPTY_PASSWORD
             value: "yes"
           - name: MYSQL_DATABASE
-            value: "db_docker_users"
+            valueFrom:
+              configMapKeyRef:
+                name: service-users-xd
+                key: db_database
         volumeMounts:
           - name: mi-volumen-mysql
             mountPath: /var/lib/mysql

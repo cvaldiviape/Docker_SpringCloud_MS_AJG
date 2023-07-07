@@ -19,14 +19,32 @@ spec:
         - containerPort: 8002
         env:
           - name: PORT
-            value: "8002"
+            valueFrom:
+              configMapKeyRef:
+                name: service-courses-xd
+                key: port
           - name: DB_HOST
-            value: "db-postgres:5432"
+            valueFrom:
+              configMapKeyRef:
+                name: service-courses-xd
+                key: db_host
           - name: DB_DATABASE
-            value: "db_docker_courses"
+            valueFrom:
+              configMapKeyRef:
+                name: service-courses-xd
+                key: db_database
           - name: DB_USERNAME
-            value: "postgres"
+            valueFrom:
+              configMapKeyRef:
+                name: service-courses-xd
+                key: db_username
           - name: DB_PASSWORD
-            value: "saksa"
+            valueFrom:
+              configMapKeyRef:
+                name: service-courses-xd
+                key: db_password
           - name: SERVICE_USERS_URL
-            value: "service-users:8001"
+            valueFrom:
+              configMapKeyRef:
+                name: service-courses-xd
+                key: service_users_url

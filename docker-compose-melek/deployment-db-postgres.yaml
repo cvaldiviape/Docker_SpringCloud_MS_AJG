@@ -19,9 +19,15 @@ spec:
         - containerPort: 5432
         env:
           - name: POSTGRES_PASSWORD
-            value: "saksa"
+            valueFrom:
+              configMapKeyRef:
+                name: service-courses-xd
+                key: db_password
           - name: POSTGRES_DB
-            value: "db_docker_courses"
+            valueFrom:
+              configMapKeyRef:
+                name: service-courses-xd
+                key: db_database
         volumeMounts:
           - name: mi-volumen-postgresql
             mountPath: /var/lib/postgresql/data
