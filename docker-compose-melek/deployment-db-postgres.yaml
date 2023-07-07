@@ -22,3 +22,11 @@ spec:
             value: "saksa"
           - name: POSTGRES_DB
             value: "db_docker_courses"
+        volumeMounts:
+          - name: mi-volumen-postgresql
+            mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: mi-volumen-postgresql
+        hostPath:
+          path: /var/lib/postgresql/data
+          type: DirectoryOrCreate

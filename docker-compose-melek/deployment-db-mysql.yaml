@@ -22,3 +22,11 @@ spec:
             value: "yes"
           - name: MYSQL_DATABASE
             value: "db_docker_users"
+        volumeMounts:
+          - name: mi-volumen-mysql
+            mountPath: /var/lib/mysql
+      volumes:
+      - name: mi-volumen-mysql
+        hostPath:
+          path: /var/lib/mysql
+          type: DirectoryOrCreate
