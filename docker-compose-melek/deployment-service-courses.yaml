@@ -13,7 +13,7 @@ spec:
         app: service-courses
     spec:
       containers:
-      - image: cvaldiviape/mek-service-courses:latest
+      - image: cvaldiviape/mek-service-courses:v2
         name: mek-service-courses
         ports:
         - containerPort: 8002
