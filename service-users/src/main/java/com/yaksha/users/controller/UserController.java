@@ -5,6 +5,7 @@ import com.yaksha.users.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private ApplicationContext context;
+    @Autowired
+    private Environment env; // con esto puedo obtener y leer variable de ambiente
 
     @GetMapping("/crash")
     public void crash(){
@@ -31,8 +34,15 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserEntity> findAll() {
-        return userService.findAll();
+    public ResponseEntity<?> findAll() {
+        List<UserEntity> listUsers = userService.findAll();
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("listUsers", listUsers);
+        body.put("podInfo", env.getProperty("MY_POD_NAME") + ": " + env.getProperty("MY_POD_IP")); // "MY_POD_NAME" y "MY_POD_IP" son información del POD donde se encuentra mi contenedor
+                                                                                                   // "service-users", el cual esta configurador en "deployment-service-users.yaml"
+                                                                                                   // https://kubernetes.io/docs/tasks/inject-data-application/environment-variable-expose-pod-information/
+        return ResponseEntity.ok(body);
     }
 
     @GetMapping("/{id}")
