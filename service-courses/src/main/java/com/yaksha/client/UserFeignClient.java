@@ -10,13 +10,13 @@ import java.util.List;
 @FeignClient(name="service-users") // ahora trabaje de esta forma por que estoy usando el DiscoveryCliente de "Kuberbenetes", ademas tambien instale la dependiente en el "pom.xml"
 public interface UserFeignClient {
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/users/{id}")
     UserDto findById(@PathVariable Long id);
 
-    @PostMapping("/")
+    @PostMapping("/api/users/")
     UserDto create(@RequestBody UserDto user);
 
-    @GetMapping("/findAllByListIds")
+    @GetMapping("/api/users/findAllByListIds")
     List<UserDto> findAllByListIds(@RequestParam Iterable<Long> listIds);
 
 }

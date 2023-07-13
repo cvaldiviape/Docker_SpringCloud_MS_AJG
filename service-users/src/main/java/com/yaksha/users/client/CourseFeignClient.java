@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name="service-courses")  // ahora trabaje de esta forma por que estoy usando el DiscoveryCliente de "Kuberbenetes", ademas tambien instale la dependiente en el "pom.xml"
 public interface CourseFeignClient {
 
-    @DeleteMapping("/delete-courseUser/{id}")
+    @DeleteMapping("/api/courses/delete-courseUser/{id}")
     void deleteCourseUserById(@PathVariable Long id);
 
 }
