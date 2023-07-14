@@ -42,6 +42,10 @@ public class UserController {
         body.put("podInfo", env.getProperty("MY_POD_NAME") + ": " + env.getProperty("MY_POD_IP")); // "MY_POD_NAME" y "MY_POD_IP" son información del POD donde se encuentra mi contenedor
                                                                                                    // "service-users", el cual esta configurador en "deployment-service-users.yaml"
                                                                                                    // https://kubernetes.io/docs/tasks/inject-data-application/environment-variable-expose-pod-information/
+        body.put("variableConfigMap", env.getProperty("config.texto")); // "texto" es una propiedad que defini en mi "config-map.yaml"
+                                                                        // Al hacer esto, ya podria centralizar la configuracion de mis variables, y usarlas dependiendo del ambiente en el que me encuentre,
+                                                                        // ya sea "DEV", "PROD" o "QA".
+                                                                        // https://docs.spring.io/spring-cloud-kubernetes/docs/current/reference/html/#configmap-propertysource
         return ResponseEntity.ok(body);
     }
 

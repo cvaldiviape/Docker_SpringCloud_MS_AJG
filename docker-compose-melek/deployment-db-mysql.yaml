@@ -23,7 +23,7 @@ spec:
           - name: MYSQL_DATABASE
             valueFrom:
               configMapKeyRef:
-                name: service-users-xd
+                name: service-users
                 key: db_database
         volumeMounts:
           - name: mi-volumen-mysql
