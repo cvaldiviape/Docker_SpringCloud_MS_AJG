@@ -9,9 +9,24 @@ data:
   db_username: "root"
   db_password: ""
   service_courses_url: "service-courses:8002"
+  mi_env: "prod"
   application.yaml: |-
     config:
       texto: Configurando ambiente por defecto
+    ---
+    spring:
+      config:
+        activate:
+          on-profile: dev
+    config:
+      texto: Configurando ambiente DESARROLLO
+    ---
+    spring:
+      config:
+        activate:
+          on-profile: prod
+    config:
+      texto: Configurando ambiente PRODUCCION
 ---
 apiVersion: v1
 kind: ConfigMap
