@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-gateway
+  template:
+    metadata:
+      labels:
+        app: service-gateway
+    spec:
+      containers:
+      - image: cvaldiviape/mek-service-gateway:v3
+        name: mek-service-gateway
+        ports:
+        - containerPort: 8090

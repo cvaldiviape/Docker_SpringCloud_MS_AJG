@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: service-courses
+          uri: lb://service-courses # aplicare "load balancer"
+          predicates:
+            - Path=/service/courses/** # ingresare al servicio "service-courses" a travez del  path de gateway => "http://8090/service/courses/**"
+          filters:
+            - StripPrefix=2 # contiene 2 prefijos mi "uri": "service" y "courses" = /service/courses
+        - id: service-users
+          uri: lb://service-users
+          predicates:
+            - Path=/service/users/**
+          filters:
+            - StripPrefix=2
