@@ -12,7 +12,6 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
-import com.yaksha.constants.SaksaApp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -97,13 +96,13 @@ public class SecurityConfig {
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId(SaksaApp.USER_ID_CLIENT)
+                .clientId("user-client") // "user-client" es el mismo que se definio en "service-users" en su archivo "application.yaml"
                 .clientSecret("{noop}12345") // "noop" indica que no esta encriptado
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .redirectUri(this.env.getProperty("LB_USER_URI") + "/login/oauth2/code/" + SaksaApp.USER_NAME_CLIENT) // "8001" es el puerto de service-users
+                .redirectUri(this.env.getProperty("LB_USER_URI") + "/login/oauth2/code/service-users-client") // "service-users-client" es el mismo que se definio "service-users" en su archivo "application.yaml"
                 .redirectUri(this.env.getProperty("LB_USER_URI") + "/authorized")
                 .scope(OidcScopes.OPENID)
                 .scope("read")
