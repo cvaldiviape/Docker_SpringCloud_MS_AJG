@@ -13,7 +13,7 @@ public interface UserFeignClient {
     @GetMapping("/api/users/{id}")
     UserDto findById(@PathVariable Long id);
 
-    @PostMapping("/api/users/")
+    @PostMapping("/api/users")
     UserDto create(@RequestBody UserDto user);
 
     @GetMapping("/api/users/findAllByListIds")

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-auth
+  template:
+    metadata:
+      labels:
+        app: service-auth
+    spec:
+      containers:
+      - image: cvaldiviape/mek-service-auth:v4
+        name: mek-service-gateway
+        ports:
+        - containerPort: 9000
+        env:
+          - name: LB_USER_URI
+            valueFrom:
+              configMapKeyRef:
+                name: service-users
+                key: lb_user_uri

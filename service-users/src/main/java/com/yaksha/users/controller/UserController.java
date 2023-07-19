@@ -94,4 +94,10 @@ public class UserController {
         });
         return ResponseEntity.badRequest().body(errores);
     }
+
+    @GetMapping("/authorized") // se encarga de retorna el código de autorización
+    public ResponseEntity<?> authorized(@RequestParam(name = "code") String code){
+        Map<String, String> response = Collections.singletonMap("code", code);
+        return ResponseEntity.ok(response);
+    }
 }

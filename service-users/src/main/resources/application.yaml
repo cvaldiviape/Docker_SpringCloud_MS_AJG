@@ -1,0 +1,19 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${LB_AUTH_ISSUER_URI:http://127.0.0.1:9000} # "9000" es el puerto del "service-auth"
+      client:
+        registration:
+          service-users-client: # el nombre "service-users-client" esta definido en el "service-auth"
+            provider: spring
+            client-id: user-client # el id "user-client" esta definido en el "service-auth"
+            client-secret: 12345 # clase definida en el "service-auth"
+            authorization-grant-type: authorization_code # definiendo el tipo de otorgamiento, es decir, obtendremos el código de autorización
+            redirect-uri: ${LB_USER_URI:http://127.0.0.1:8001}/authorized # es necesario implementar este endpoint que se va encarga de obtener el código de autorización
+            scope: read
+            client-name: service-users-client
+        provider:
+          spring:
+            issuer-uri: ${LB_AUTH_ISSUER_URI:http://127.0.0.1:9000}

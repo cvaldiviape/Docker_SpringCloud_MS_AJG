@@ -80,6 +80,24 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+<!--		Esta dependencia proporciona las funcionalidades necesarias para integrar una aplicación de Spring Boot con proveedores de autenticación y autorización basados-->
+<!--		en OAuth 2.0, como Google, Facebook, GitHub, entre otros. Incluye las bibliotecas necesarias para la autenticación del cliente y el flujo de autorización del lado -->
+<!--		del cliente, lo que permite a la aplicación obtener tokens de acceso de un proveedor de OAuth 2.0 para autenticar y autorizar las solicitudes a recursos protegidos.-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+<!--		Esta dependencia se utiliza para habilitar la funcionalidad de servidor de recursos OAuth 2.0 en una aplicación de Spring Boot. Permite proteger los recursos de -->
+<!--		la aplicación y validar los tokens de acceso emitidos por un proveedor de OAuth 2.0. Además, proporciona configuraciones para definir reglas de autorización y -->
+<!--		controlar el acceso a los recursos basándose en los roles y alcances de los tokens de acceso.-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
