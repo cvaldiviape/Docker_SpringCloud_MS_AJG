@@ -5,6 +5,7 @@ import com.yaksha.users.entity.UserEntity;
 import com.yaksha.users.mapper.UserMapper;
 import com.yaksha.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private CourseFeignClient courseFeignClient;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     @Transactional(readOnly = true)
@@ -34,6 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity create(UserEntity user) {
+        user.setPassword(this.passwordEncoder.encode(user.getPassword())); // encriptando el paswword del usuario que recien esta siendo creado
         return this.userRepository.save(user);
     }
 
@@ -42,7 +46,7 @@ public class UserServiceImpl implements UserService {
         UserEntity userUpdate = this.userRepository.findById(id).orElseThrow(() -> new Exception("Usuario no existe"));
         userUpdate.setName(user.getName());
         userUpdate.setEmail(user.getEmail());
-        userUpdate.setPassword(user.getPassword());
+        userUpdate.setPassword(this.passwordEncoder.encode(user.getPassword())); // encriptando el paswword del usuario que recien esta siendo creado
         return this.userRepository.save(userUpdate);
     }
 
