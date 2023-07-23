@@ -13,7 +13,7 @@ spec:
         app: service-auth
     spec:
       containers:
-      - image: cvaldiviape/mek-service-auth:v4
+      - image: cvaldiviape/mek-service-auth:v5
         name: mek-service-gateway
         ports:
         - containerPort: 9000

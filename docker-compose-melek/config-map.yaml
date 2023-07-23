@@ -3,8 +3,8 @@ kind: ConfigMap
 metadata:
   name: service-users
 data:
-  lb_auth_issuer_uri: http://host.docker.internal:54203
-  lb_user_uri: http://host.docker.internal:64211
+  lb_auth_issuer_uri: http://host.docker.internal:65408
+  lb_user_uri: http://host.docker.internal:65403
   port: "8001"
   db_host: "db-mysql:3306"
   db_database: "db_docker_users"

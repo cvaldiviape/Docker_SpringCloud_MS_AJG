@@ -1,7 +1,6 @@
 package com.yaksha.users.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,19 +15,19 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
 
-                .antMatchers("/authorized")// defiendo esta ruta
+                .antMatchers("/api/users/authorized")// defiendo esta ruta
                 .permitAll() // como publica, es decir, cualquiera puede acceder
 
-                .antMatchers(HttpMethod.GET, "/", "/{id}")
+                .antMatchers(HttpMethod.GET, "/api/users/", "/api/users/{id}")
                 .hasAnyAuthority("SCOPE_read", "SCOPE_write") // solo los usuario authenticado y que tenga el scope "read" podran acceder a la ruta "GET" "/"
 
-                .antMatchers(HttpMethod.POST, "/")
+                .antMatchers(HttpMethod.POST, "/api/users/")
                 .hasAuthority("SCOPE_write")
 
-                .antMatchers(HttpMethod.PUT, "/{id}")
+                .antMatchers(HttpMethod.PUT, "/api/users/{id}")
                 .hasAuthority("SCOPE_write")
 
-                .antMatchers(HttpMethod.DELETE, "/{id}")
+                .antMatchers(HttpMethod.DELETE, "/api/users/{id}")
                 .hasAuthority("SCOPE_write")
 
                 .anyRequest() // todas las rutas

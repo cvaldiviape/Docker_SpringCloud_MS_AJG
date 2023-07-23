@@ -11,7 +11,7 @@ spring:
             client-id: user-client # el id "user-client" esta definido en el "service-auth"
             client-secret: 12345 # clase definida en el "service-auth"
             authorization-grant-type: authorization_code # definiendo el tipo de otorgamiento, es decir, obtendremos el código de autorización
-            redirect-uri: ${LB_USER_URI:http://127.0.0.1:8001}/authorized # es necesario implementar este endpoint que se va encarga de obtener el código de autorización
+            redirect-uri: ${LB_USER_URI:http://127.0.0.1:8001}/api/users/authorized # es necesario implementar este endpoint que se va encarga de obtener el código de autorización
             scope: read
             client-name: service-users-client
         provider:

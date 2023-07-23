@@ -103,7 +103,7 @@ public class SecurityConfig {
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .redirectUri(this.env.getProperty("LB_USER_URI") + "/login/oauth2/code/service-users-client") // "service-users-client" es el mismo que se definio "service-users" en su archivo "application.yaml"
-                .redirectUri(this.env.getProperty("LB_USER_URI") + "/authorized")
+                .redirectUri(this.env.getProperty("LB_USER_URI") + "/api/users/authorized")
                 .scope(OidcScopes.OPENID)
                 .scope("read")
                 .scope("write")
