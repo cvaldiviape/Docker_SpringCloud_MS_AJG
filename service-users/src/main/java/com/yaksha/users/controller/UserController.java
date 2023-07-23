@@ -12,10 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("api/users")
@@ -99,5 +96,14 @@ public class UserController {
     public ResponseEntity<?> authorized(@RequestParam(name = "code") String code){
         Map<String, String> response = Collections.singletonMap("code", code);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<?> loginByEmail(@RequestParam(name = "email") String email){
+        Optional<UserEntity> userOptional = this.userService.findByEmail(email);
+        if(userOptional.isPresent()){
+            return ResponseEntity.ok(userOptional.get());
+        }
+        return ResponseEntity.notFound().build();
     }
 }

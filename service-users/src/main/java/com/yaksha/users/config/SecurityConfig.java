@@ -21,7 +21,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
 
-                .antMatchers("/api/users/authorized")// defiendo esta ruta
+                .antMatchers("/api/users/authorized", "/api/users/login")// defiendo esta ruta
                 .permitAll() // como publica, es decir, cualquiera puede acceder
 
                 .antMatchers(HttpMethod.GET, "/api/users/", "/api/users/{id}")

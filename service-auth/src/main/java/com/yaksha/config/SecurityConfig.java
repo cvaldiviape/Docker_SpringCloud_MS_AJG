@@ -18,11 +18,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
@@ -40,6 +42,13 @@ public class SecurityConfig {
 
     @Autowired
     private Environment env;
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Bean
+    public static BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
     // Este método define un filtro de seguridad encargado del manejo de errores relacionados con el servidor de autorización. Configura la seguridad
     // del servidor de autorización OAuth2 y habilita OpenID Connect 1.0. Además, establece una redirección a la página de inicio de sesión cuando no
@@ -78,18 +87,27 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // Esta función de configuración se utiliza para definir cómo se autenticarán los usuarios en el sistema. Establece el UserDetailsService para cargar los
+    // detalles del usuario desde una fuente de datos y el PasswordEncoder para codificar y comparar las contraseñas de manera segura durante el proceso de
+    // autenticación. La configuración definida en esta función se utilizará para construir el AuthenticationManager, que es esencial para el funcionamiento
+    // del sistema de autenticación de Spring Security.
+    @Autowired
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder());
+    }
+
     // Este método crea un servicio de detalles de usuario en memoria. Se utiliza para proporcionar los detalles de autenticación de un usuario, en este caso,
     // se crea un usuario con nombre de usuario, contraseña y roles.
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails userDetails = User.withDefaultPasswordEncoder()
-                .username("admin")
-                .password("12345")
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(userDetails);
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        UserDetails userDetails = User.withDefaultPasswordEncoder()
+//                .username("admin")
+//                .password("12345")
+//                .roles("USER")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(userDetails);
+//    }
 
     // Este método crea un repositorio de clientes (Angular, ReactJS, VueJS, etc) registrados en memoria. Define un cliente OAuth2 registrado con un ID, cliente
     // secreto, método de autenticación, tipos de concesión, URI de redirección y configuraciones adicionales.
@@ -97,7 +115,8 @@ public class SecurityConfig {
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("user-client") // "user-client" es el mismo que se definio en "service-users" en su archivo "application.yaml"
-                .clientSecret("{noop}12345") // "noop" indica que no esta encriptado
+//                .clientSecret("{noop}12345") // "noop" indica que no esta encriptado
+                .clientSecret(passwordEncoder().encode("12345"))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
