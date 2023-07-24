@@ -11,12 +11,12 @@ import java.util.List;
 public interface UserFeignClient {
 
     @GetMapping("/api/users/{id}")
-    UserDto findById(@PathVariable Long id);
+    UserDto findById(@PathVariable Long id, @RequestHeader(value = "Authorization", required = true) String token);
 
     @PostMapping("/api/users")
-    UserDto create(@RequestBody UserDto user);
+    UserDto create(@RequestBody UserDto user, @RequestHeader(value = "Authorization", required = true) String token);
 
     @GetMapping("/api/users/findAllByListIds")
-    List<UserDto> findAllByListIds(@RequestParam Iterable<Long> listIds);
+    List<UserDto> findAllByListIds(@RequestParam Iterable<Long> listIds, @RequestHeader(value = "Authorization", required = true) String token);
 
 }

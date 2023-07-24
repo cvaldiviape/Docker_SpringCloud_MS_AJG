@@ -53,10 +53,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public Optional<UserDto> assignUser(UserDto user, Long cursoId) {
+    public Optional<UserDto> assignUser(UserDto user, Long cursoId, String token) {
         Optional<CourseEntity> courseOptional = this.courseRepository.findById(cursoId);
         if (courseOptional.isPresent()) {
-            UserDto userFound = userFeignClient.findById(user.getId());
+            UserDto userFound = userFeignClient.findById(user.getId(), token);
             CourseEntity courseFound = courseOptional.get();
             CourseUserEntity courseUser = new CourseUserEntity();
             courseUser.setUserId(userFound.getId());
@@ -71,10 +71,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public Optional<UserDto> createUser(UserDto user, Long courseId) {
+    public Optional<UserDto> createUser(UserDto user, Long courseId, String token) {
         Optional<CourseEntity> courseOptional = this.courseRepository.findById(courseId);
         if (courseOptional.isPresent()) {
-            UserDto userCreated = userFeignClient.create(user);
+            UserDto userCreated = userFeignClient.create(user, token);
             CourseEntity courseFound = courseOptional.get();
             CourseUserEntity courseUser = new CourseUserEntity();
             courseUser.setUserId(userCreated.getId());
@@ -88,10 +88,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public Optional<UserDto> deleteUser(UserDto user, Long courseId) {
+    public Optional<UserDto> deleteUser(UserDto user, Long courseId, String token) {
         Optional<CourseEntity> courseOptional = this.courseRepository.findById(courseId);
         if (courseOptional.isPresent()) {
-            UserDto userFound = this.userFeignClient.findById(user.getId());
+            UserDto userFound = this.userFeignClient.findById(user.getId(), token);
             CourseEntity courseFound = courseOptional.get();
             CourseUserEntity courseUser = new CourseUserEntity();
             courseUser.setUserId(userFound.getId());
@@ -105,7 +105,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<CourseEntity> findByIdWithDataFull(Long id) {
+    public Optional<CourseEntity> findByIdWithDataFull(Long id, String token) {
         Optional<CourseEntity> courseOptional = this.courseRepository.findById(id);
         if (courseOptional.isPresent()) {
             CourseEntity courseFound = courseOptional.get();
@@ -115,7 +115,7 @@ public class CourseServiceImpl implements CourseService {
                         .map(CourseUserEntity::getUserId)
                         .collect(Collectors.toList());
 
-                List<UserDto> listUsers = this.userFeignClient.findAllByListIds(listIds);
+                List<UserDto> listUsers = this.userFeignClient.findAllByListIds(listIds, token);
                 courseFound.setUsers(listUsers);
             }
             return Optional.of(courseFound);

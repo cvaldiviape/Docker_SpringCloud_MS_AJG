@@ -13,10 +13,10 @@ public interface CourseService {
     CourseEntity create(CourseEntity course);
     CourseEntity update(CourseEntity course, Long id) throws Exception;
     void deleteById(Long id) throws Exception;
-    Optional<UserDto> assignUser(UserDto user, Long courseId);
-    Optional<UserDto> createUser(UserDto user, Long courseId);
-    Optional<UserDto> deleteUser(UserDto user, Long courseId);
-    Optional<CourseEntity> findByIdWithDataFull(Long id);
+    Optional<UserDto> assignUser(UserDto user, Long courseId, String token);
+    Optional<UserDto> createUser(UserDto user, Long courseId, String token);
+    Optional<UserDto> deleteUser(UserDto user, Long courseId, String token);
+    Optional<CourseEntity> findByIdWithDataFull(Long id, String token);
     void deleteCourseUserById(Long id);
 
 }
