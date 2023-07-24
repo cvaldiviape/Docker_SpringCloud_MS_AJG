@@ -27,7 +27,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try{
-            // haciendo una petición GET a la uril "http://service-users/api/users/login"
+            // haciendo una petición GET a la url "http://service-users/api/users/login"
             UserDto user = this.webClient.build()
                     .get()
                     .uri("http://service-users/api/users/login", uri -> uri.queryParam("email", email).build())

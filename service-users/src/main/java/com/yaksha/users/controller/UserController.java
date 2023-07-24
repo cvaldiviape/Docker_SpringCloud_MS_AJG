@@ -2,6 +2,8 @@ package com.yaksha.users.controller;
 
 import com.yaksha.users.entity.UserEntity;
 import com.yaksha.users.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -24,6 +26,7 @@ public class UserController {
     private ApplicationContext context;
     @Autowired
     private Environment env; // con esto puedo obtener y leer variable de ambiente
+    private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("/crash")
     public void crash(){
@@ -100,10 +103,13 @@ public class UserController {
 
     @GetMapping("/login")
     public ResponseEntity<?> loginByEmail(@RequestParam(name = "email") String email){
+        this.logger.info("Buscar por el correo: " + email);
         Optional<UserEntity> userOptional = this.userService.findByEmail(email);
         if(userOptional.isPresent()){
+            this.logger.info("USUARIO ENCONTRADO :D");
             return ResponseEntity.ok(userOptional.get());
         }
+        this.logger.info("USUARIO NO EXISTE :c");
         return ResponseEntity.notFound().build();
     }
 }

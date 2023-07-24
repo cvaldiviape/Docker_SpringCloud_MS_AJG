@@ -46,6 +46,18 @@ public class SecurityConfig {
                 .oauth2Login(oauth2Login -> oauth2Login.loginPage("/oauth2/authorization/service-users-client")) // "service-users-client" lo defini en el "service-auth"
                 .oauth2Client(withDefaults())
 
+                // "CSRF" se utiliza para deshabilitar la protección CSRF (Cross-Site Request Forgery) en una aplicación web. CSRF es un tipo de ataque en el que un atacante puede hacer que un usuario autenticado
+                // realice acciones no deseadas en una aplicación web sin su conocimiento o consentimiento. Para protegerse contra este tipo de ataques, Spring Security habilita la protección CSRF de forma
+                // predeterminada.
+                // Sin embargo, hay situaciones en las que deshabilitar CSRF puede ser necesario o adecuado:
+                // 1- API RESTful: Cuando estás construyendo una API RESTful que se utiliza principalmente como backend de una aplicación de una sola página (SPA) o una aplicación móvil, no es necesario
+                //                 aplicar protección CSRF, ya que la autenticación se realiza mediante tokens (como JWT) en lugar de sesiones.
+                // 2- Aplicaciones Stateless: Algunas aplicaciones pueden ser diseñadas como "stateless" (sin estado), lo que significa que no utilizan sesiones y no requieren protección CSRF.
+                // 3- Otras medidas de seguridad: En ciertos casos, es posible que la aplicación tenga otras medidas de seguridad en su lugar que mitiguen los riesgos de CSRF, y por lo tanto, se toma la
+                //                                decisión de deshabilitar la protección CSRF.
+                // EJEMPLOS DE ATAQUES: "Cambio de Contraseña No Deseado", "Realizar una Transferencia No Autorizada",
+                .csrf().disable() // LO COLOQUE EN EL "service-auth" en su "SecurityConfig"
+
                 .oauth2ResourceServer() // se conectara con el "service-auth" el cual se definio en el "application.yaml" -> "resourceserver"
                 .jwt();
 
